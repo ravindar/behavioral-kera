@@ -11,9 +11,8 @@ import os
 import numpy as np
 import cv2
 
-col, row, ch = 160, 80, 3  # camera format
-learning_rate = 0.0001
-dropout_factor = 0.3
+col, row, ch = 160, 80, 3
+learning_rate = 0.001
 w_reg=0.00
 
 def get_model():
@@ -27,61 +26,71 @@ def get_model():
                         nb_col=5,
                         subsample=(2,2),
                         border_mode='valid',
-                        input_shape=(row, col, ch),
-                        W_regularizer=l2(w_reg)))
+                        input_shape=(row, col, ch)))
     model.add(Activation('relu'))
+
     # CNN Layer 2
     model.add(Convolution2D(nb_filter=36,
                         nb_row=5,
                         nb_col=5,
                         subsample=(2,2),
-                        border_mode='valid',
-                        W_regularizer=l2(w_reg)))
-    model.add(Dropout(dropout_factor))
+                        border_mode='valid'))
+    model.add(Dropout(0.5))
     model.add(Activation('relu'))
+
     # CNN Layer 3
     model.add(Convolution2D(nb_filter=48,
                         nb_row=5,
                         nb_col=5,
                         subsample=(2,2),
-                        border_mode='valid',
-                        W_regularizer=l2(w_reg)))
-    model.add(Dropout(dropout_factor))
+                        border_mode='valid'))
+    model.add(Dropout(0.5))
     model.add(Activation('relu'))
+
     # CNN Layer 4
     model.add(Convolution2D(nb_filter=64,
                         nb_row=3,
                         nb_col=3,
                         subsample=(1,1),
-                        border_mode='valid',
-                        W_regularizer=l2(w_reg)))
-    model.add(Dropout(dropout_factor))
+                        border_mode='valid'))
+    model.add(Dropout(0.5))
     model.add(Activation('relu'))
+
     # CNN Layer 5
     model.add(Convolution2D(nb_filter=64,
                         nb_row=3,
                         nb_col=3,
                         subsample=(1,1),
-                        border_mode='valid',
-                        W_regularizer=l2(w_reg)))
-    model.add(Dropout(dropout_factor))
+                        border_mode='valid'))
+    model.add(Dropout(0.5))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Activation('relu'))
+
     # Flatten
     model.add(Flatten())
+    model.add(Dropout(0.2))
+    model.add(Activation('relu'))
+
     # FCNN Layer 1
     model.add(Dense(512, input_shape=(2496,), name="hidden1", W_regularizer=l2(w_reg)))
     model.add(Activation('relu'))
+
     # FCNN Layer 2
     model.add(Dense(256, name="hidden2", W_regularizer=l2(w_reg)))
     model.add(Activation('relu'))
+
+    # FCNN Layer 2
+    model.add(Dense(50, name="hidden3", W_regularizer=l2(w_reg)))
+    model.add(Activation('relu'))
+
     # FCNN Layer 3
     model.add(Dense(1, name="output", W_regularizer=l2(w_reg)))
+
     model.compile(loss='mean_squared_error',
               optimizer=Adam(lr=learning_rate)
               )
 
     return model
-
 
 def readLog():
     with open(os.path.join('data/', 'driving_log.csv'), 'r') as f:
@@ -90,17 +99,29 @@ def readLog():
         num_features = len(driving_log_list)
         print("Found {} features.".format(num_features))
 
-        X_train = np.ndarray(shape=(num_features, row, col, ch), dtype=float)
-        Y_train = np.ndarray(shape=(num_features), dtype=float)
+        X_train = np.ndarray(shape=(num_features*3, row, col, ch), dtype=float)
+        Y_train = np.ndarray(shape=(num_features*3), dtype=float)
         for i in range(num_features):
-            filename = driving_log_list[i][0].lstrip()
-            angle = driving_log_list[i][3]
-            image = process_image(filename)
-            angle_arr = np.ndarray(shape=(1), dtype=float)
-            angle_arr[0] = angle
+            central_image = process_image(driving_log_list[i][0].lstrip())
+            central_angle = np.ndarray(shape=(1), dtype=float)
+            central_angle[0] = float(driving_log_list[i][3])
 
-            X_train[i] = image
-            Y_train[i] = angle_arr
+            X_train[i*3] = central_image
+            Y_train[i*3] = central_angle
+
+            left_image = process_image(driving_log_list[i][1].lstrip())
+            left_angle = np.ndarray(shape=(1), dtype=float)
+            left_angle[0] = float(driving_log_list[i][3]) + 0.08
+
+            X_train[(i*3)+1] = left_image
+            Y_train[(i*3)+1] = left_angle
+
+            right_image = process_image(driving_log_list[i][2].lstrip())
+            right_angle = np.ndarray(shape=(1), dtype=float)
+            right_angle[0] = float(driving_log_list[i][3]) - 0.08
+
+            X_train[(i*3)+2] = right_image
+            Y_train[(i*3)+2] = right_angle
 
         return X_train, Y_train
 
@@ -115,18 +136,11 @@ if __name__ == '__main__':
     X_train, X_valid, Y_train, Y_valid = train_test_split(
         X_train,
         Y_train,
-        test_size=0.15,
-        random_state=0)
-
-    X_train, X_test, Y_train, Y_test = train_test_split(
-        X_train,
-        Y_train,
-        test_size=0.15,
+        test_size=0.30,
         random_state=0)
 
     print("X_train has {} elements.".format(len(X_train)))
     print("X_valid has {} elements.".format(len(X_valid)))
-    print("X_test has {} elements.".format(len(X_test)))
 
     model = get_model()
 
@@ -155,9 +169,9 @@ if __name__ == '__main__':
                         shuffle=True)
 
     # Evaluate the accuracy of the model using the test set
-    score = model.evaluate(X_test, Y_test, batch_size=len(X_test), verbose=1)
-
-    print("Test score {}".format(score))
+    # score = model.evaluate(X_test, Y_test, batch_size=len(X_test), verbose=1)
+    #
+    # print("Test score {}".format(score))
 
     ################################################################
     # Save the model and weights

@@ -10,10 +10,32 @@ import csv
 import os
 import numpy as np
 import cv2
+import math
+from random import shuffle
 
 col, row, ch = 160, 80, 3
 learning_rate = 0.001
 w_reg=0.00
+batch_size = 100
+
+def calc_samples_per_epoch(array_size, batch_size):
+    num_batches = array_size / batch_size
+    samples_per_epoch = math.ceil((num_batches / batch_size) * batch_size)
+    samples_per_epoch = samples_per_epoch * batch_size
+    return samples_per_epoch
+
+def get_next_image_angle_pair(X_train, Y_train):
+    index = 0
+    while 1:
+        batch_images = np.ndarray(shape=(batch_size, row, col, ch), dtype=float)
+        batch_angles = np.ndarray(shape=(batch_size), dtype=float)
+        for i in range(batch_size):
+            if index >= len(X_train):
+                index = 0
+            batch_images[i] = X_train[index]
+            batch_angles[i] = Y_train[index]
+            index += 1
+        yield batch_images, batch_angles
 
 def get_model():
     model = Sequential()
@@ -99,31 +121,40 @@ def readLog():
         num_features = len(driving_log_list)
         print("Found {} features.".format(num_features))
 
-        X_train = np.ndarray(shape=(num_features*3, row, col, ch), dtype=float)
-        Y_train = np.ndarray(shape=(num_features*3), dtype=float)
+        X_train = np.ndarray(shape=(num_features*4, row, col, ch), dtype=float)
+        Y_train = np.ndarray(shape=(num_features*4), dtype=float)
         for i in range(num_features):
-            central_image = process_image(driving_log_list[i][0].lstrip())
-            central_angle = np.ndarray(shape=(1), dtype=float)
-            central_angle[0] = float(driving_log_list[i][3])
+            if(float(driving_log_list[i][4]) > .25 ):
+                central_image = process_image(driving_log_list[i][0].lstrip())
+                central_angle = np.ndarray(shape=(1), dtype=float)
+                central_angle[0] = float(driving_log_list[i][3])
 
-            X_train[i*3] = central_image
-            Y_train[i*3] = central_angle
+                X_train[i*4] = central_image
+                Y_train[i*4] = central_angle
 
-            left_image = process_image(driving_log_list[i][1].lstrip())
-            left_angle = np.ndarray(shape=(1), dtype=float)
-            left_angle[0] = float(driving_log_list[i][3]) + 0.08
+                X_train[(i*4)+1] = flip(central_image)
+                Y_train[(i*4)+1] = (-1.0 * central_angle)
 
-            X_train[(i*3)+1] = left_image
-            Y_train[(i*3)+1] = left_angle
+                left_image = process_image(driving_log_list[i][1].lstrip())
+                left_angle = np.ndarray(shape=(1), dtype=float)
+                left_angle[0] = float(driving_log_list[i][3]) + (float(driving_log_list[i][3])*0.75)
 
-            right_image = process_image(driving_log_list[i][2].lstrip())
-            right_angle = np.ndarray(shape=(1), dtype=float)
-            right_angle[0] = float(driving_log_list[i][3]) - 0.08
+                X_train[(i*4)+2] = left_image
+                Y_train[(i*4)+2] = left_angle
 
-            X_train[(i*3)+2] = right_image
-            Y_train[(i*3)+2] = right_angle
+                right_image = process_image(driving_log_list[i][2].lstrip())
+                right_angle = np.ndarray(shape=(1), dtype=float)
+                right_angle[0] = float(driving_log_list[i][3]) - (float(driving_log_list[i][3])*0.75)
+
+                X_train[(i*4)+3] = right_image
+                Y_train[(i*4)+3] = right_angle
 
         return X_train, Y_train
+
+def flip(image):
+    flipped_image = cv2.flip(image, 1)
+    flipped_image = flipped_image[np.newaxis, ...]
+    return flipped_image;
 
 def process_image(filename):
     image = cv2.imread(os.path.join('data/', filename))
@@ -144,34 +175,17 @@ if __name__ == '__main__':
 
     model = get_model()
 
-    # print("Using generator")
-    #
-    # datagen = ImageDataGenerator(
-    #     featurewise_center=True,
-    #     featurewise_std_normalization=True,
-    #     zca_whitening=True
-    # )
-    #
-    # datagen.fit(X_train)
+    print("Using generator")
 
     print("starting model")
-    # history = model.fit_generator(datagen.flow(X_train, Y_train, batch_size=50),
-    #                     samples_per_epoch=X_train.shape[0],
-    #                     nb_epoch=10,
-    #                     verbose=1,
-    #                     validation_data=(X_valid, Y_valid))
-
-    history = model.fit(X_train, Y_train,
-                        batch_size=len(X_train),
-                        nb_epoch=6,
+    history = model.fit_generator(
+                        get_next_image_angle_pair(X_train, Y_train),
+                        samples_per_epoch=calc_samples_per_epoch(len(X_train), batch_size),
+                        max_q_size=10,
+                        nb_epoch=5,
                         verbose=1,
-                        validation_data=(X_valid, Y_valid),
-                        shuffle=True)
-
-    # Evaluate the accuracy of the model using the test set
-    # score = model.evaluate(X_test, Y_test, batch_size=len(X_test), verbose=1)
-    #
-    # print("Test score {}".format(score))
+                        validation_data=get_next_image_angle_pair(X_valid, Y_valid),
+                        nb_val_samples=calc_samples_per_epoch(len(X_valid), batch_size))
 
     ################################################################
     # Save the model and weights

@@ -11,7 +11,4 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.5.2 (~/anaconda/anaconda/envs/keras/bin/python3.5)" project-jdk-type="Python SDK" />
-  <component name="SvnBranchConfigurationManager">
-    <option name="mySupportsUserInfoFilter" value="true" />
-  </component>
 </project>

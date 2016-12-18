@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/behavioral-kera.iml" filepath="$PROJECT_DIR$/.idea/behavioral-kera.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/traffic-sign-kera.iml" filepath="$PROJECT_DIR$/.idea/traffic-sign-kera.iml" />
     </modules>
   </component>
 </project>

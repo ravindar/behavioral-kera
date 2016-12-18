@@ -1,6 +1,6 @@
 import json
 from keras.models import Sequential
-from keras.layers import Convolution2D, Flatten, MaxPooling2D, Lambda
+from keras.layers import Convolution2D, Flatten, MaxPooling2D, Lambda, ELU
 from keras.layers.core import Dense, Dropout, Activation
 from keras.optimizers import Adam
 from keras.regularizers import l2
@@ -56,8 +56,8 @@ def processImage(filename, angle, flipFlag=0):
     image = cv2.resize(image, (col, row))
     if flipFlag == 1:
         image = flip(image)
-        angle = -1.0 * angle
-    return image, angle
+        angle = -1.0 * float(angle)
+    return image, float(angle)
 
 def getImageGenerator(X_train, batch_size):
     index = 0
@@ -95,7 +95,7 @@ def getModel():
                         subsample=(2,2),
                         border_mode='valid',
                         input_shape=(row, col, ch)))
-    model.add(Activation('relu'))
+    model.add(ELU())
 
     # CNN Layer 2
     model.add(Convolution2D(nb_filter=36,
@@ -104,7 +104,7 @@ def getModel():
                         subsample=(2,2),
                         border_mode='valid'))
     model.add(Dropout(0.5))
-    model.add(Activation('relu'))
+    model.add(ELU())
 
     # CNN Layer 3
     model.add(Convolution2D(nb_filter=48,
@@ -113,7 +113,7 @@ def getModel():
                         subsample=(2,2),
                         border_mode='valid'))
     model.add(Dropout(0.5))
-    model.add(Activation('relu'))
+    model.add(ELU())
 
     # CNN Layer 4
     model.add(Convolution2D(nb_filter=64,
@@ -122,7 +122,7 @@ def getModel():
                         subsample=(1,1),
                         border_mode='valid'))
     model.add(Dropout(0.5))
-    model.add(Activation('relu'))
+    model.add(ELU())
 
     # CNN Layer 5
     model.add(Convolution2D(nb_filter=64,
@@ -132,24 +132,24 @@ def getModel():
                         border_mode='valid'))
     model.add(Dropout(0.5))
     model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Activation('relu'))
+    model.add(ELU())
 
     # Flatten
     model.add(Flatten())
     model.add(Dropout(0.2))
-    model.add(Activation('relu'))
+    model.add(ELU())
 
     # FCNN Layer 1
-    model.add(Dense(512, input_shape=(2496,), name="hidden1", W_regularizer=l2(w_reg)))
-    model.add(Activation('relu'))
+    model.add(Dense(1248, input_shape=(2496,), name="hidden1", W_regularizer=l2(w_reg)))
+    model.add(ELU())
 
     # FCNN Layer 2
-    model.add(Dense(256, name="hidden2", W_regularizer=l2(w_reg)))
-    model.add(Activation('relu'))
+    model.add(Dense(624, name="hidden2", W_regularizer=l2(w_reg)))
+    model.add(ELU())
 
     # FCNN Layer 2
-    model.add(Dense(50, name="hidden3", W_regularizer=l2(w_reg)))
-    model.add(Activation('relu'))
+    model.add(Dense(312, name="hidden3", W_regularizer=l2(w_reg)))
+    model.add(ELU())
 
     # FCNN Layer 3
     model.add(Dense(1, name="output", W_regularizer=l2(w_reg)))
@@ -160,14 +160,20 @@ def getModel():
 
     return model
 
-def randomAddFlipToNonZeroAngles(logEntries):
+def flipAllNonZeroAngledImages(logEntries):
     for i in range(len(logEntries)):
         if(logEntries[i][1] != 0.0):
-            #if np.random.choice([True, False]):
             logEntries.append([logEntries[i][0], logEntries[i][1], 1])
     return logEntries
 
-def pruneEntries(logEntries):
+def flipAllImagesRandomly(logEntries):
+    for i in range(len(logEntries)):
+        #if(logEntries[i][1] != 0.0):
+        if np.random.choice([True, False]):
+            logEntries.append([logEntries[i][0], logEntries[i][1], 1])
+    return logEntries
+
+def randomlyRemoveZeroAngledImages(logEntries):
     num = 0
     indexToRemove = []
     for i in range(len(logEntries)):
@@ -175,6 +181,16 @@ def pruneEntries(logEntries):
             if np.random.choice([True, False]):
                 indexToRemove.append(i)
                 num = num+1
+    logEntries = np.delete(logEntries, indexToRemove, 0)
+    return logEntries.tolist(), num
+
+def removeLowAngledImages(logEntries):
+    num = 0
+    indexToRemove = []
+    for i in range(len(logEntries)):
+        if(abs(float(logEntries[i][1])) < 0.001 and abs(float(logEntries[i][1])) != 0.0):
+            indexToRemove.append(i)
+            num = num+1
     logEntries = np.delete(logEntries, indexToRemove, 0)
     return logEntries.tolist(), num
 
@@ -206,16 +222,22 @@ if __name__ == '__main__':
     logEntries = readLogFiles()
     print("Number of features read from file -  {}".format(len(logEntries)))
 
-    logEntries, numOfZeroAngle = pruneEntries(logEntries)
+    logEntries, numOfZeroAngle = randomlyRemoveZeroAngledImages(logEntries)
     print("Num of randomly removed 0.0 angle -  {}".format(numOfZeroAngle))
+
+    #logEntries, numOfLowAngle = removeLowAngledImages(logEntries)
+    #print("Num of low angled images (<0.001) removed -  {}".format(numOfLowAngle))
 
     num_features = len(logEntries)
     print("Total number of features after -  {}".format(num_features))
 
-    logEntries = randomAddFlipToNonZeroAngles(logEntries)
+    #logEntries = flipAllImagesRandomly(logEntries)
+    #num_features = len(logEntries)
+    #print("Number of features after adding randomly flipped all images - {}".format(num_features))
 
+    logEntries = flipAllNonZeroAngledImages(logEntries)
     num_features = len(logEntries)
-    print("Number of features after randomly flipping non zero angles - {}".format(num_features))
+    print("Number of features after adding flipped non zero angled images - {}".format(num_features))
 
     shuffle(logEntries)
     num_train_elements = int((num_features/4.)*3.)

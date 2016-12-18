@@ -163,8 +163,8 @@ def getModel():
 def randomAddFlipToNonZeroAngles(logEntries):
     for i in range(len(logEntries)):
         if(logEntries[i][1] != 0.0):
-            if np.random.choice([True, False]):
-                logEntries.append([logEntries[i][0], logEntries[i][1], 1])
+            #if np.random.choice([True, False]):
+            logEntries.append([logEntries[i][0], logEntries[i][1], 1])
     return logEntries
 
 def pruneEntries(logEntries):

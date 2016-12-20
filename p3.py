@@ -10,11 +10,20 @@ import numpy as np
 import cv2
 import math
 from random import shuffle
+from keras.models import model_from_json
+import json
+import random
+
+new_model = False
 
 col, row, ch = 160, 80, 3
 learning_rate = 0.0001
 w_reg=0.00
 angleAdjustFactor = 0.75
+
+batch_size = 100
+num_epoch = 7
+
 
 def readLogFiles():
     with open(os.path.join('data/', 'driving_log.csv'), 'r') as f:
@@ -160,17 +169,62 @@ def getModel():
 
     return model
 
+# remove angles that are larger that .98 or lesser than -.98
+# remove 0 angles with a probability of 30%
+def removeExtremeEntries(logEntries):
+    num = 0
+    indexToRemove = []
+
+    for i in range(len(logEntries)):
+        angle = float(logEntries[i][1])
+        if math.isclose(angle, 0, abs_tol=0.001):
+            indexToRemove.append(i)
+            num = num+1
+            continue
+
+        if angle > 0.98 or angle < -0.98:
+            indexToRemove.append(i)
+            num = num+1
+            continue
+
+    logEntries = np.delete(logEntries, indexToRemove, 0)
+    return logEntries.tolist(), num
+
+def flipAllImages50Prob(logEntries):
+    for i in range(len(logEntries)):
+        if np.random.choice([True, False]):
+            logEntries.append([logEntries[i][0], logEntries[i][1], 1])
+    return logEntries
+
+
 def flipAllNonZeroAngledImages(logEntries):
     for i in range(len(logEntries)):
         if(logEntries[i][1] != 0.0):
             logEntries.append([logEntries[i][0], logEntries[i][1], 1])
     return logEntries
 
+def biasedCoin(p):
+    return True if random.random() < p else False
+
+def addExtraImagesOfLargeAnglesWithFlip(logEntries):
+    for i in range(len(logEntries)):
+        angle = float(logEntries[i][1])
+        if angle > 0.40 and angle < 0.70:
+            logEntries.append([logEntries[i][0], logEntries[i][1], 1])
+            if biasedCoin(.40):
+                logEntries.append([logEntries[i][0], logEntries[i][1], 0])
+        if angle < -0.40 and angle > -0.70:
+            logEntries.append([logEntries[i][0], logEntries[i][1], 0])
+            if biasedCoin(.30):
+                logEntries.append([logEntries[i][0], logEntries[i][1], 1])
+    return logEntries
+
 def randomlyRemoveZeroAngledImages(logEntries):
     num = 0
     indexToRemove = []
     for i in range(len(logEntries)):
-        if(logEntries[i][1] == 0.0):
+        angle = float(logEntries[i][1])
+        if math.isclose(angle, 0, abs_tol=0.001):
             if np.random.choice([True, False]):
                 indexToRemove.append(i)
                 num = num+1
@@ -189,32 +243,23 @@ def removeNoneName(X_train):
     X_train = np.delete(X_train, indexToRemove, 0)
     return X_train.tolist(), num
 
+def removeLowAngledImages(logEntries):
+    num = 0
+    indexToRemove = []
+    for i in range(len(logEntries)):
+        if(abs(float(logEntries[i][1])) < 0.01):
+            indexToRemove.append(i)
+            num = num+1
+    logEntries = np.delete(logEntries, indexToRemove, 0)
+    return logEntries.tolist(), num
+
 def getSamples(array_size, batch_size):
     num_batches = array_size / batch_size
     samples_per_epoch = math.ceil((num_batches / batch_size) * batch_size)
     return samples_per_epoch * batch_size
 
-if __name__ == '__main__':
-    batch_size = 100
-    num_epoch = 7
-
-    print("Learning rate - {}.".format(learning_rate))
-    print("Number of epochs - {}.".format(num_epoch))
-    print("Adjust left and right angle by a factor of - {}".format(angleAdjustFactor))
-
-    logEntries = readLogFiles()
-    print("Number of features read from file -  {}".format(len(logEntries)))
-
-    logEntries, numOfZeroAngle = randomlyRemoveZeroAngledImages(logEntries)
-    print("Num of randomly removed 0.0 angle -  {}".format(numOfZeroAngle))
-
+def custom_train_test_valid(logEntries):
     num_features = len(logEntries)
-    print("Total number of features after -  {}".format(num_features))
-
-    logEntries = flipAllNonZeroAngledImages(logEntries)
-    num_features = len(logEntries)
-    print("Number of features after adding flipped non zero angled images - {}".format(num_features))
-
     shuffle(logEntries)
     num_train_elements = int((num_features/4.)*3.)
     num_valid_elements = int(((num_features/4.)*1.) / 2.)
@@ -229,20 +274,72 @@ if __name__ == '__main__':
     print("X_train has {} elements. removed {}".format(len(X_train), noneTrain))
     print("X_valid has {} elements. removed {}".format(len(X_valid), noneTest))
     print("X_test has {} elements. remove {}".format(len(X_test), noneValid))
+    return X_train, X_test, X_valid
 
-    model = getModel()
+def newModel(logEntries, numEpoch):
+    logEntries, numOfZeroAngle = randomlyRemoveZeroAngledImages(logEntries)
+    print("Num of randomly removed 0.0 angle -  {}".format(numOfZeroAngle))
+
+    num_features = len(logEntries)
+    print("Total number of features after -  {}".format(num_features))
+
+    logEntries = flipAllNonZeroAngledImages(logEntries)
+    num_features = len(logEntries)
+    print("Number of features after adding flipped non zero angled images - {}".format(num_features))
+
+    X_train, X_test, X_valid = custom_train_test_valid(logEntries)
+
+    new_model = getModel()
 
     print("Using generator")
 
     print("starting model")
-    history = model.fit_generator(
+    history = new_model.fit_generator(
                         getImageGenerator(X_train, batch_size),
                         samples_per_epoch=getSamples(len(X_train), batch_size),
                         max_q_size=10,
-                        nb_epoch=num_epoch,
+                        nb_epoch=numEpoch,
                         verbose=1,
                         validation_data=getImageGenerator(X_valid, batch_size),
                         nb_val_samples=getSamples(len(X_valid), batch_size))
+
+    # Evaluate the accuracy of the model using the test set
+    score = new_model.evaluate_generator(
+                        generator=getImageGenerator(X_test, batch_size),
+                        val_samples=getSamples(len(X_test), batch_size)
+                        )
+    print("Test score {}".format(score))
+    return new_model
+
+def refineModel(model, numEpoch):
+    for i in range(8):
+        logEntries = readLogFiles()
+        print("Number of features read from file -  {}".format(len(logEntries)))
+
+        logEntries, num = removeExtremeEntries(logEntries)
+        logEntries, numOfZeroAngle = randomlyRemoveZeroAngledImages(logEntries)
+        print("Num of randomly removed 0.0 angle -  {}".format(numOfZeroAngle))
+
+        num_features = len(logEntries)
+        print("Total number of features after -  {}".format(num_features))
+
+        logEntries = flipAllImages50Prob(logEntries)
+        num_features = len(logEntries)
+        print("Number of features after adding flipped non zero angled images - {}".format(num_features))
+
+        X_train, X_test, X_valid = custom_train_test_valid(logEntries)
+
+        print("Using generator")
+
+        print("starting model")
+        history = model.fit_generator(
+                            getImageGenerator(X_train, batch_size),
+                            samples_per_epoch=getSamples(len(X_train), batch_size),
+                            max_q_size=10,
+                            nb_epoch=numEpoch,
+                            verbose=1,
+                            validation_data=getImageGenerator(X_valid, batch_size),
+                            nb_val_samples=getSamples(len(X_valid), batch_size))
 
     # Evaluate the accuracy of the model using the test set
     score = model.evaluate_generator(
@@ -250,11 +347,36 @@ if __name__ == '__main__':
                         val_samples=getSamples(len(X_test), batch_size)
                         )
     print("Test score {}".format(score))
-    ################################################################
-    # Save the model and weights
-    ################################################################
+    print(model.summary())
+
+    return model
+
+def saveModel(model, model_fname, model_wfname):
     model_json = model.to_json()
-    with open("./model.json", "w") as json_file:
+    with open(model_fname, "w") as json_file:
         json.dump(model_json, json_file)
-    model.save_weights("./model.h5")
+    model.save_weights(model_wfname)
     print("Saved model to disk")
+
+if __name__ == '__main__':
+    print("Learning rate - {}.".format(learning_rate))
+    print("Number of epochs - {}.".format(num_epoch))
+    print("Adjust left and right angle by a factor of - {}".format(angleAdjustFactor))
+
+    if new_model:
+        logEntries = readLogFiles()
+        print("Number of features read from file -  {}".format(len(logEntries)))
+
+        model = newModel(logEntries, num_epoch)
+        saveModel(model, "./model.json", "./model.h5")
+    else:
+        print("Running in refine mode")
+        with open("model_base.json", 'r') as file:
+            model = model_from_json(json.load(file))
+
+        model.compile(loss='mean_squared_error',
+          optimizer=Adam(lr=0.00001)
+          )
+        model.load_weights("model_base.h5")
+        model = refineModel(model, 1)
+        saveModel(model, "./model_refine_4a.json", "./model_refine_4a.h5")

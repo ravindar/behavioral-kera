@@ -151,12 +151,11 @@ def getModel(learnRate):
     model.add(Dense(1, name="output", W_regularizer=l2(w_reg)))
 
     model.compile(loss='mean_squared_error',
-              optimizer=Adam(lr=learnRate, beta_1=0.9, beta_2=0.999, epsilon=1e-08, decay=0.0)
+              optimizer=Adam(lr=learnRate)
               )
 
     return model
 
-# remove angles that are larger that .98 or lesser than -.98
 # remove abs(angles) less .01
 def removeExtremeEntries(logEntries):
     num = 0
@@ -168,12 +167,6 @@ def removeExtremeEntries(logEntries):
             if biasedCoin(.8):
                 indexToRemove.append(i)
                 num = num+1
-        #         continue
-        #
-        # if angle > 0.98 or angle < -0.98:
-        #     indexToRemove.append(i)
-        #     num = num+1
-        #     continue
 
     logEntries = np.delete(logEntries, indexToRemove, 0)
     return logEntries.tolist(), num
@@ -183,7 +176,6 @@ def flipAllImages50Prob(logEntries):
         if np.random.choice([True, False]):
             logEntries.append([logEntries[i][0], logEntries[i][1], 1])
     return logEntries
-
 
 def flipAllNonZeroAngledImages(logEntries):
     for i in range(len(logEntries)):
@@ -206,28 +198,6 @@ def addExtraImagesOfLargeAnglesWithFlip(logEntries):
             if biasedCoin(.30):
                 logEntries.append([logEntries[i][0], logEntries[i][1], 1])
     return logEntries
-
-def randomlyRemoveZeroAngledImages(logEntries):
-    num = 0
-    indexToRemove = []
-    for i in range(len(logEntries)):
-        angle = float(logEntries[i][1])
-        if angle == 0.0:
-            if np.random.choice([True, False]):
-                indexToRemove.append(i)
-                num = num+1
-    logEntries = np.delete(logEntries, indexToRemove, 0)
-    return logEntries.tolist(), num
-
-def removeLowAngledImages(logEntries):
-    num = 0
-    indexToRemove = []
-    for i in range(len(logEntries)):
-        if(abs(float(logEntries[i][1])) < 0.01):
-            indexToRemove.append(i)
-            num = num+1
-    logEntries = np.delete(logEntries, indexToRemove, 0)
-    return logEntries.tolist(), num
 
 def getSamples(featureSize, batchSize):
     numBatches = featureSize / batchSize
@@ -265,7 +235,7 @@ def custom_train_test_valid(logEntries):
     return X_train, X_test, X_valid
 
 def newModel(model, numEpoch, batchSize, adjustAngle, dataLocation):
-    for i in range(15):
+    for i in range(10):
         logEntries = readLogFiles(adjustAngle, dataLocation)
         print("Number of features read from file -  {}".format(len(logEntries)))
 
@@ -307,40 +277,44 @@ def newModel(model, numEpoch, batchSize, adjustAngle, dataLocation):
     return model
 
 def refineModel(model, numEpoch, batchSize, adjustAngle, dataLocation):
-    logEntries = readLogFiles(adjustAngle, dataLocation)
-    print("Number of features read from file -  {}".format(len(logEntries)))
+    for i in range(5):
+        logEntries = readLogFiles(adjustAngle, dataLocation)
+        print("Number of features read from file -  {}".format(len(logEntries)))
 
-    logEntries, num = removeExtremeEntries(logEntries)
-    logEntries, numOfZeroAngle = randomlyRemoveZeroAngledImages(logEntries)
-    print("Num of 0.0 angles removed -  {}".format(numOfZeroAngle))
+        logEntries, num = removeExtremeEntries(logEntries)
+        print("Num removed angles below abs(angle) < .01 -  {}".format(num))
 
-    num_features = len(logEntries)
-    print("Total number of features after -  {}".format(num_features))
+        num_features = len(logEntries)
+        print("Total number of features after -  {}".format(num_features))
 
-    logEntries = flipAllImages50Prob(logEntries)
-    num_features = len(logEntries)
-    print("Number of features after adding flipped non zero angled images - {}".format(num_features))
+        logEntries = flipAllImages50Prob(logEntries)
+        num_features = len(logEntries)
+        print("Number of features after adding flipped non zero angled images - {}".format(num_features))
 
-    X_train, X_test, X_valid = custom_train_test_valid(logEntries)
+        logEntries = addExtraImagesOfLargeAnglesWithFlip(logEntries)
+        num_features = len(logEntries)
+        print("After repeating large angled images with flips - {}".format(num_features))
 
-    print("Using generator")
+        X_train, X_test, X_valid = custom_train_test_valid(logEntries)
 
-    print("starting model")
-    history = model.fit_generator(
-                        getImageGenerator(X_train, batchSize, dataLocation),
-                        samples_per_epoch=getSamples(len(X_train), batchSize),
-                        max_q_size=10,
-                        nb_epoch=numEpoch,
-                        verbose=1,
-                        validation_data=getImageGenerator(X_valid, batchSize, dataLocation),
-                        nb_val_samples=getSamples(len(X_valid), batchSize))
+        print("Using generator")
 
-    # Evaluate the accuracy of the model using the test set
-    score = model.evaluate_generator(
-                        generator=getImageGenerator(X_test, batchSize, dataLocation),
-                        val_samples=getSamples(len(X_test), batchSize)
-                        )
-    print("Test score {}".format(score))
+        print("starting model")
+        history = model.fit_generator(
+                            getImageGenerator(X_train, batchSize, dataLocation),
+                            samples_per_epoch=getSamples(len(X_train), batchSize),
+                            max_q_size=10,
+                            nb_epoch=numEpoch,
+                            verbose=1,
+                            validation_data=getImageGenerator(X_valid, batchSize, dataLocation),
+                            nb_val_samples=getSamples(len(X_valid), batchSize))
+
+        # Evaluate the accuracy of the model using the test set
+        score = model.evaluate_generator(
+                            generator=getImageGenerator(X_test, batchSize, dataLocation),
+                            val_samples=getSamples(len(X_test), batchSize)
+                            )
+        print("Test score {}".format(score))
     print(model.summary())
 
     return model

@@ -1,0 +1,815 @@
+
+
+1. 20 cycles - goes off the road. Using Relu
+carnd@ip-172-31-43-94:~/behavioral-kera$ python3 p3.py True .0001 'data/' 'model_base'
+Using TensorFlow backend.
+Learning rate - 0.0001.
+Number of epochs - 1.
+Adjust left and right angle by a factor of - 0.75
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10915
+Total number of features after -  13193
+Number of features after adding flipped non zero angled images - 26386
+X_train has 19789 elements. removed 0
+X_valid has 3298 elements. removed 0
+X_test has 3299 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+19808/19808 [==============================] - 77s - loss: 0.0219 - val_loss: 0.0204
+Test score 0.019588353873517077
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10868
+Total number of features after -  13240
+Number of features after adding flipped non zero angled images - 26480
+X_train has 19860 elements. removed 0
+X_valid has 3310 elements. removed 0
+X_test has 3310 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+19872/19872 [==============================] - 76s - loss: 0.0178 - val_loss: 0.0184
+Test score 0.017280321657800905
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10872
+Total number of features after -  13236
+Number of features after adding flipped non zero angled images - 26472
+X_train has 19854 elements. removed 0
+X_valid has 3309 elements. removed 0
+X_test has 3309 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+19872/19872 [==============================] - 77s - loss: 0.0166 - val_loss: 0.0195
+Test score 0.018467524187424436
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  11001
+Total number of features after -  13107
+Number of features after adding flipped non zero angled images - 26214
+X_train has 19660 elements. removed 0
+X_valid has 3276 elements. removed 0
+X_test has 3278 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+19680/19680 [==============================] - 76s - loss: 0.0166 - val_loss: 0.0168
+Test score 0.016018982818440615
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10951
+Total number of features after -  13157
+Number of features after adding flipped non zero angled images - 26314
+X_train has 19735 elements. removed 0
+X_valid has 3289 elements. removed 0
+X_test has 3290 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+19744/19744 [==============================] - 77s - loss: 0.0163 - val_loss: 0.0163
+Test score 0.017745328599189238
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10987
+Total number of features after -  13121
+Number of features after adding flipped non zero angled images - 26242
+X_train has 19681 elements. removed 0
+X_valid has 3280 elements. removed 0
+X_test has 3281 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+19712/19712 [==============================] - 76s - loss: 0.0161 - val_loss: 0.0158
+Test score 0.017375278019897855
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10900
+Total number of features after -  13208
+Number of features after adding flipped non zero angled images - 26416
+X_train has 19812 elements. removed 0
+X_valid has 3302 elements. removed 0
+X_test has 3302 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+19840/19840 [==============================] - 76s - loss: 0.0157 - val_loss: 0.0162
+Test score 0.01628278931065534
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10939
+Total number of features after -  13169
+Number of features after adding flipped non zero angled images - 26338
+X_train has 19753 elements. removed 0
+X_valid has 3292 elements. removed 0
+X_test has 3293 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+19776/19776 [==============================] - 76s - loss: 0.0153 - val_loss: 0.0165
+Test score 0.016488304483767563
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10979
+Total number of features after -  13129
+Number of features after adding flipped non zero angled images - 26258
+X_train has 19693 elements. removed 0
+X_valid has 3282 elements. removed 0
+X_test has 3283 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+19712/19712 [==============================] - 77s - loss: 0.0156 - val_loss: 0.0160
+Test score 0.013974445003979994
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10928
+Total number of features after -  13180
+Number of features after adding flipped non zero angled images - 26360
+X_train has 19770 elements. removed 0
+X_valid has 3295 elements. removed 0
+X_test has 3295 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+19776/19776 [==============================] - 75s - loss: 0.0152 - val_loss: 0.0159
+Test score 0.01506421155323392
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10937
+Total number of features after -  13171
+Number of features after adding flipped non zero angled images - 26342
+X_train has 19756 elements. removed 0
+X_valid has 3292 elements. removed 0
+X_test has 3294 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+19776/19776 [==============================] - 75s - loss: 0.0148 - val_loss: 0.0168
+Test score 0.015332022397010361
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10951
+Total number of features after -  13157
+Number of features after adding flipped non zero angled images - 26314
+X_train has 19735 elements. removed 0
+X_valid has 3289 elements. removed 0
+X_test has 3290 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+19744/19744 [==============================] - 75s - loss: 0.0150 - val_loss: 0.0149
+Test score 0.014788081571098092
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10868
+Total number of features after -  13240
+Number of features after adding flipped non zero angled images - 26480
+X_train has 19860 elements. removed 0
+X_valid has 3310 elements. removed 0
+X_test has 3310 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+19872/19872 [==============================] - 76s - loss: 0.0147 - val_loss: 0.0152
+Test score 0.014423267400930993
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10912
+Total number of features after -  13196
+Number of features after adding flipped non zero angled images - 26392
+X_train has 19794 elements. removed 0
+X_valid has 3299 elements. removed 0
+X_test has 3299 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+19808/19808 [==============================] - 75s - loss: 0.0140 - val_loss: 0.0166
+Test score 0.017048483015969396
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10944
+Total number of features after -  13164
+Number of features after adding flipped non zero angled images - 26328
+X_train has 19746 elements. removed 0
+X_valid has 3291 elements. removed 0
+X_test has 3291 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+19776/19776 [==============================] - 75s - loss: 0.0146 - val_loss: 0.0147
+Test score 0.016427725381715205
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10900
+Total number of features after -  13208
+Number of features after adding flipped non zero angled images - 26416
+X_train has 19812 elements. removed 0
+X_valid has 3302 elements. removed 0
+X_test has 3302 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+19840/19840 [==============================] - 75s - loss: 0.0143 - val_loss: 0.0147
+Test score 0.01485706136848491
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  11050
+Total number of features after -  13058
+Number of features after adding flipped non zero angled images - 26116
+X_train has 19587 elements. removed 0
+X_valid has 3264 elements. removed 0
+X_test has 3265 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+19616/19616 [==============================] - 75s - loss: 0.0146 - val_loss: 0.0131
+Test score 0.01304952582814595
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10891
+Total number of features after -  13217
+Number of features after adding flipped non zero angled images - 26434
+X_train has 19825 elements. removed 0
+X_valid has 3304 elements. removed 0
+X_test has 3305 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+19840/19840 [==============================] - 75s - loss: 0.0141 - val_loss: 0.0137
+Test score 0.014297431511714911
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10866
+Total number of features after -  13242
+Number of features after adding flipped non zero angled images - 26484
+X_train has 19863 elements. removed 0
+X_valid has 3310 elements. removed 0
+X_test has 3311 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+19872/19872 [==============================] - 75s - loss: 0.0137 - val_loss: 0.0135
+Test score 0.015470904257829087
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10935
+Total number of features after -  13173
+Number of features after adding flipped non zero angled images - 26346
+X_train has 19759 elements. removed 0
+X_valid has 3293 elements. removed 0
+X_test has 3294 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+19776/19776 [==============================] - 75s - loss: 0.0135 - val_loss: 0.0143
+Test score 0.01437309897477621
+____________________________________________________________________________________________________
+Layer (type)                     Output Shape          Param #     Connected to
+====================================================================================================
+lambda_1 (Lambda)                (None, 80, 160, 3)    0           lambda_input_1[0][0]
+____________________________________________________________________________________________________
+convolution2d_1 (Convolution2D)  (None, 38, 78, 24)    1824        lambda_1[0][0]
+____________________________________________________________________________________________________
+leaky relu 1 (LeakyReLU)         (None, 38, 78, 24)    0           convolution2d_1[0][0]
+____________________________________________________________________________________________________
+convolution2d_2 (Convolution2D)  (None, 17, 37, 36)    21636       leaky relu 1[0][0]
+____________________________________________________________________________________________________
+dropout_1 (Dropout)              (None, 17, 37, 36)    0           convolution2d_2[0][0]
+____________________________________________________________________________________________________
+leaky relu 2 (LeakyReLU)         (None, 17, 37, 36)    0           dropout_1[0][0]
+____________________________________________________________________________________________________
+convolution2d_3 (Convolution2D)  (None, 7, 17, 48)     43248       leaky relu 2[0][0]
+____________________________________________________________________________________________________
+dropout_2 (Dropout)              (None, 7, 17, 48)     0           convolution2d_3[0][0]
+  __________________________________________________________________________________________________
+leaky relu 3 (LeakyReLU)         (None, 7, 17, 48)     0           dropout_2[0][0]
+____________________________________________________________________________________________________
+convolution2d_4 (Convolution2D)  (None, 5, 15, 64)     27712       leaky relu 3[0][0]
+____________________________________________________________________________________________________
+dropout_3 (Dropout)              (None, 5, 15, 64)     0           convolution2d_4[0][0]
+____________________________________________________________________________________________________
+leaky relu 4 (LeakyReLU)         (None, 5, 15, 64)     0           dropout_3[0][0]
+____________________________________________________________________________________________________
+convolution2d_5 (Convolution2D)  (None, 3, 13, 64)     36928       leaky relu 4[0][0]
+____________________________________________________________________________________________________
+dropout_4 (Dropout)              (None, 3, 13, 64)     0           convolution2d_5[0][0]
+____________________________________________________________________________________________________
+maxpooling2d_1 (MaxPooling2D)    (None, 1, 6, 64)      0           dropout_4[0][0]
+____________________________________________________________________________________________________
+leaky relu 5 (LeakyReLU)         (None, 1, 6, 64)      0           maxpooling2d_1[0][0]
+____________________________________________________________________________________________________
+flatten_1 (Flatten)              (None, 384)           0           leaky relu 5[0][0]
+____________________________________________________________________________________________________
+dropout_5 (Dropout)              (None, 384)           0           flatten_1[0][0]
+____________________________________________________________________________________________________
+leaky relu 6 (LeakyReLU)         (None, 384)           0           dropout_5[0][0]
+____________________________________________________________________________________________________
+hidden1 (Dense)                  (None, 512)           197120      leaky relu 6[0][0]
+____________________________________________________________________________________________________
+leaky relu 7 (LeakyReLU)         (None, 512)           0           hidden1[0][0]
+____________________________________________________________________________________________________
+hidden2 (Dense)                  (None, 256)           131328      leaky relu 7[0][0]
+____________________________________________________________________________________________________
+leaky relu 8 (LeakyReLU)         (None, 256)           0           hidden2[0][0]
+____________________________________________________________________________________________________
+hidden3 (Dense)                  (None, 50)            12850       leaky relu 8[0][0]
+____________________________________________________________________________________________________
+leaky relu 9 (LeakyReLU)         (None, 50)            0           hidden3[0][0]
+____________________________________________________________________________________________________
+output (Dense)                   (None, 1)             51          leaky relu 9[0][0]
+====================================================================================================
+Total params: 472697
+____________________________________________________________________________________________________
+None
+Saved model to disk
+
+2. working model-- 10 cycles, using leakyRelu's
+carnd@ip-172-31-43-94:~/behavioral-kera$ python3 p3.py True .0001 'data/' 'model_base'
+Using TensorFlow backend.
+Learning rate - 0.0001.
+Number of epochs - 1.
+Adjust left and right angle by a factor of - 0.75
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10878
+Total number of features after -  13230
+Number of features after flipping images randomly - 19887
+X_train has 14915 elements. removed 0
+X_valid has 2485 elements. removed 0
+X_test has 2487 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14944/14944 [==============================] - 59s - loss: 0.0262 - val_loss: 0.0232
+Test score 0.023195283254608512
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10965
+Total number of features after -  13143
+Number of features after flipping images randomly - 19644
+X_train has 14733 elements. removed 0
+X_valid has 2455 elements. removed 0
+X_test has 2456 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14752/14752 [==============================] - 56s - loss: 0.0205 - val_loss: 0.0224
+Test score 0.01983166365073873
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10848
+Total number of features after -  13260
+Number of features after flipping images randomly - 19874
+X_train has 14905 elements. removed 0
+X_valid has 2484 elements. removed 0
+X_test has 2485 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14912/14912 [==============================] - 56s - loss: 0.0191 - val_loss: 0.0228
+Test score 0.021578756784900833
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10851
+Total number of features after -  13257
+Number of features after flipping images randomly - 19919
+X_train has 14939 elements. removed 0
+X_valid has 2489 elements. removed 0
+X_test has 2491 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14944/14944 [==============================] - 56s - loss: 0.0193 - val_loss: 0.0193
+Test score 0.021177564926732045
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10913
+Total number of features after -  13195
+Number of features after flipping images randomly - 19793
+X_train has 14844 elements. removed 0
+X_valid has 2474 elements. removed 0
+X_test has 2475 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14848/14848 [==============================] - 56s - loss: 0.0189 - val_loss: 0.0187
+Test score 0.01936995140157449
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10924
+Total number of features after -  13184
+Number of features after flipping images randomly - 19810
+X_train has 14857 elements. removed 0
+X_valid has 2476 elements. removed 0
+X_test has 2477 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14880/14880 [==============================] - 57s - loss: 0.0185 - val_loss: 0.0178
+Test score 0.021788557692884635
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10935
+Total number of features after -  13173
+Number of features after flipping images randomly - 19821
+X_train has 14865 elements. removed 0
+X_valid has 2477 elements. removed 0
+X_test has 2479 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14880/14880 [==============================] - 56s - loss: 0.0187 - val_loss: 0.0185
+Test score 0.018923022664892368
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10968
+Total number of features after -  13140
+Number of features after flipping images randomly - 19748
+X_train has 14811 elements. removed 0
+X_valid has 2468 elements. removed 0
+X_test has 2469 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14816/14816 [==============================] - 56s - loss: 0.0184 - val_loss: 0.0183
+Test score 0.01850244607657003
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10966
+Total number of features after -  13142
+Number of features after flipping images randomly - 19699
+X_train has 14774 elements. removed 0
+X_valid has 2462 elements. removed 0
+X_test has 2463 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14784/14784 [==============================] - 56s - loss: 0.0182 - val_loss: 0.0199
+Test score 0.01944870457004804
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10933
+Total number of features after -  13175
+Number of features after flipping images randomly - 19678
+X_train has 14758 elements. removed 0
+X_valid has 2459 elements. removed 0
+X_test has 2461 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14784/14784 [==============================] - 56s - loss: 0.0179 - val_loss: 0.0214
+Test score 0.0193569192771691
+____________________________________________________________________________________________________
+Layer (type)                     Output Shape          Param #     Connected to
+====================================================================================================
+lambda_1 (Lambda)                (None, 80, 160, 3)    0           lambda_input_1[0][0]
+____________________________________________________________________________________________________
+convolution2d_1 (Convolution2D)  (None, 38, 78, 24)    1824        lambda_1[0][0]
+____________________________________________________________________________________________________
+leaky relu 1 (LeakyReLU)         (None, 38, 78, 24)    0           convolution2d_1[0][0]
+____________________________________________________________________________________________________
+convolution2d_2 (Convolution2D)  (None, 17, 37, 36)    21636       leaky relu 1[0][0]
+____________________________________________________________________________________________________
+dropout_1 (Dropout)              (None, 17, 37, 36)    0           convolution2d_2[0][0]
+____________________________________________________________________________________________________
+leaky relu 2 (LeakyReLU)         (None, 17, 37, 36)    0           dropout_1[0][0]
+____________________________________________________________________________________________________
+convolution2d_3 (Convolution2D)  (None, 7, 17, 48)     43248       leaky relu 2[0][0]
+____________________________________________________________________________________________________
+dropout_2 (Dropout)              (None, 7, 17, 48)     0           convolution2d_3[0][0]
+____________________________________________________________________________________________________
+leaky relu 3 (LeakyReLU)         (None, 7, 17, 48)     0           dropout_2[0][0]
+____________________________________________________________________________________________________
+convolution2d_4 (Convolution2D)  (None, 5, 15, 64)     27712       leaky relu 3[0][0]
+____________________________________________________________________________________________________
+dropout_3 (Dropout)              (None, 5, 15, 64)     0           convolution2d_4[0][0]
+____________________________________________________________________________________________________
+leaky relu 4 (LeakyReLU)         (None, 5, 15, 64)     0           dropout_3[0][0]
+____________________________________________________________________________________________________
+convolution2d_5 (Convolution2D)  (None, 3, 13, 64)     36928       leaky relu 4[0][0]
+____________________________________________________________________________________________________
+dropout_4 (Dropout)              (None, 3, 13, 64)     0           convolution2d_5[0][0]
+____________________________________________________________________________________________________
+maxpooling2d_1 (MaxPooling2D)    (None, 1, 6, 64)      0           dropout_4[0][0]
+____________________________________________________________________________________________________
+leaky relu 5 (LeakyReLU)         (None, 1, 6, 64)      0           maxpooling2d_1[0][0]
+____________________________________________________________________________________________________
+flatten_1 (Flatten)              (None, 384)           0           leaky relu 5[0][0]
+____________________________________________________________________________________________________
+dropout_5 (Dropout)              (None, 384)           0           flatten_1[0][0]
+____________________________________________________________________________________________________
+leaky relu 6 (LeakyReLU)         (None, 384)           0           dropout_5[0][0]
+____________________________________________________________________________________________________
+hidden1 (Dense)                  (None, 512)           197120      leaky relu 6[0][0]
+____________________________________________________________________________________________________
+leaky relu 7 (LeakyReLU)         (None, 512)           0           hidden1[0][0]
+____________________________________________________________________________________________________
+hidden2 (Dense)                  (None, 256)           131328      leaky relu 7[0][0]
+____________________________________________________________________________________________________
+leaky relu 8 (LeakyReLU)         (None, 256)           0           hidden2[0][0]
+____________________________________________________________________________________________________
+hidden3 (Dense)                  (None, 50)            12850       leaky relu 8[0][0]
+____________________________________________________________________________________________________
+leaky relu 9 (LeakyReLU)         (None, 50)            0           hidden3[0][0]
+____________________________________________________________________________________________________
+output (Dense)                   (None, 1)             51          leaky relu 9[0][0]
+====================================================================================================
+Total params: 472697
+____________________________________________________________________________________________________
+None
+Saved model to disk
+carnd@ip-172-31-43-94:~/behavioral-kera$          
+
+
+3. goes of the road - 15 cycles
+carnd@ip-172-31-43-94:~/behavioral-kera$ python3 p3.py True .0001 'data/' 'model_base'
+Using TensorFlow backend.
+Learning rate - 0.0001.
+Number of epochs - 1.
+Adjust left and right angle by a factor of - 0.75
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10752
+Total number of features after -  13356
+Number of features after flipping images randomly - 20011
+X_train has 15008 elements. removed 0
+X_valid has 2501 elements. removed 0
+X_test has 2502 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+15008/15008 [==============================] - 58s - loss: 0.0259 - val_loss: 0.0221
+Test score 0.020789427971585266
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10967
+Total number of features after -  13141
+Number of features after flipping images randomly - 19777
+X_train has 14832 elements. removed 0
+X_valid has 2472 elements. removed 0
+X_test has 2473 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14848/14848 [==============================] - 56s - loss: 0.0211 - val_loss: 0.0227
+Test score 0.022366467851381272
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10894
+Total number of features after -  13214
+Number of features after flipping images randomly - 19753
+X_train has 14814 elements. removed 0
+X_valid has 2469 elements. removed 0
+X_test has 2470 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14816/14816 [==============================] - 56s - loss: 0.0196 - val_loss: 0.0200
+Test score 0.021621315280357614
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10911
+Total number of features after -  13197
+Number of features after flipping images randomly - 19738
+X_train has 14803 elements. removed 0
+X_valid has 2467 elements. removed 0
+X_test has 2468 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14816/14816 [==============================] - 56s - loss: 0.0193 - val_loss: 0.0191
+Test score 0.019661990125687458
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10870
+Total number of features after -  13238
+Number of features after flipping images randomly - 19867
+X_train has 14900 elements. removed 0
+X_valid has 2483 elements. removed 0
+X_test has 2484 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14912/14912 [==============================] - 56s - loss: 0.0189 - val_loss: 0.0203
+Test score 0.017848272915356435
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10899
+Total number of features after -  13209
+Number of features after flipping images randomly - 19882
+X_train has 14911 elements. removed 0
+X_valid has 2485 elements. removed 0
+X_test has 2486 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14912/14912 [==============================] - 56s - loss: 0.0182 - val_loss: 0.0210
+Test score 0.020369617322173256
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10873
+Total number of features after -  13235
+Number of features after flipping images randomly - 19944
+X_train has 14958 elements. removed 0
+X_valid has 2493 elements. removed 0
+X_test has 2493 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14976/14976 [==============================] - 57s - loss: 0.0177 - val_loss: 0.0223
+Test score 0.021059770895263705
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10916
+Total number of features after -  13192
+Number of features after flipping images randomly - 19753
+X_train has 14814 elements. removed 0
+X_valid has 2469 elements. removed 0
+X_test has 2470 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14816/14816 [==============================] - 56s - loss: 0.0182 - val_loss: 0.0180
+Test score 0.01872719575364429
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10980
+Total number of features after -  13128
+Number of features after flipping images randomly - 19664
+X_train has 14748 elements. removed 0
+X_valid has 2458 elements. removed 0
+X_test has 2458 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14752/14752 [==============================] - 56s - loss: 0.0182 - val_loss: 0.0191
+Test score 0.01799501700012328
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10946
+Total number of features after -  13162
+Number of features after flipping images randomly - 19807
+X_train has 14855 elements. removed 0
+X_valid has 2475 elements. removed 0
+X_test has 2477 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14880/14880 [==============================] - 56s - loss: 0.0178 - val_loss: 0.0171
+Test score 0.01735651581428754
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10891
+Total number of features after -  13217
+Number of features after flipping images randomly - 19923
+X_train has 14942 elements. removed 0
+X_valid has 2490 elements. removed 0
+X_test has 2491 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14944/14944 [==============================] - 57s - loss: 0.0181 - val_loss: 0.0178
+Test score 0.017682299059696305
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10889
+Total number of features after -  13219
+Number of features after flipping images randomly - 19723
+X_train has 14792 elements. removed 0
+X_valid has 2465 elements. removed 0
+X_test has 2466 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14816/14816 [==============================] - 56s - loss: 0.0175 - val_loss: 0.0179
+Test score 0.01645957303042404
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10821
+Total number of features after -  13287
+Number of features after flipping images randomly - 19961
+X_train has 14970 elements. removed 0
+X_valid has 2495 elements. removed 0
+X_test has 2496 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14976/14976 [==============================] - 56s - loss: 0.0163 - val_loss: 0.0208
+Test score 0.01900090859271586
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10881
+Total number of features after -  13227
+Number of features after flipping images randomly - 19863
+X_train has 14897 elements. removed 0
+X_valid has 2482 elements. removed 0
+X_test has 2484 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14912/14912 [==============================] - 56s - loss: 0.0171 - val_loss: 0.0165
+Test score 0.01606995567309264
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10903
+Total number of features after -  13205
+Number of features after flipping images randomly - 19781
+X_train has 14835 elements. removed 0
+X_valid has 2472 elements. removed 0
+X_test has 2474 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14848/14848 [==============================] - 56s - loss: 0.0176 - val_loss: 0.0179
+Test score 0.017779904668434307
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10958
+Total number of features after -  13150
+Number of features after flipping images randomly - 19697
+X_train has 14772 elements. removed 0
+X_valid has 2462 elements. removed 0
+X_test has 2463 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14784/14784 [==============================] - 56s - loss: 0.0171 - val_loss: 0.0168
+Test score 0.017791268173847106
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  10843
+Total number of features after -  13265
+Number of features after flipping images randomly - 19804
+X_train has 14853 elements. removed 0
+X_valid has 2475 elements. removed 0
+X_test has 2476 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+14880/14880 [==============================] - 56s - loss: 0.0166 - val_loss: 0.0163
+Test score 0.018563263963024396
+____________________________________________________________________________________________________
+Layer (type)                     Output Shape          Param #     Connected to
+====================================================================================================
+lambda_1 (Lambda)                (None, 80, 160, 3)    0           lambda_input_1[0][0]
+____________________________________________________________________________________________________
+convolution2d_1 (Convolution2D)  (None, 38, 78, 24)    1824        lambda_1[0][0]
+____________________________________________________________________________________________________
+leaky relu 1 (LeakyReLU)         (None, 38, 78, 24)    0           convolution2d_1[0][0]
+____________________________________________________________________________________________________
+convolution2d_2 (Convolution2D)  (None, 17, 37, 36)    21636       leaky relu 1[0][0]
+____________________________________________________________________________________________________
+dropout_1 (Dropout)              (None, 17, 37, 36)    0           convolution2d_2[0][0]
+____________________________________________________________________________________________________
+leaky relu 2 (LeakyReLU)         (None, 17, 37, 36)    0           dropout_1[0][0]
+____________________________________________________________________________________________________
+convolution2d_3 (Convolution2D)  (None, 7, 17, 48)     43248       leaky relu 2[0][0]
+____________________________________________________________________________________________________
+dropout_2 (Dropout)              (None, 7, 17, 48)     0           convolution2d_3[0][0]
+____________________________________________________________________________________________________
+leaky relu 3 (LeakyReLU)         (None, 7, 17, 48)     0           dropout_2[0][0]
+____________________________________________________________________________________________________
+convolution2d_4 (Convolution2D)  (None, 5, 15, 64)     27712       leaky relu 3[0][0]
+____________________________________________________________________________________________________
+dropout_3 (Dropout)              (None, 5, 15, 64)     0           convolution2d_4[0][0]
+____________________________________________________________________________________________________
+leaky relu 4 (LeakyReLU)         (None, 5, 15, 64)     0           dropout_3[0][0]
+____________________________________________________________________________________________________
+convolution2d_5 (Convolution2D)  (None, 3, 13, 64)     36928       leaky relu 4[0][0]
+____________________________________________________________________________________________________
+dropout_4 (Dropout)              (None, 3, 13, 64)     0           convolution2d_5[0][0]
+____________________________________________________________________________________________________
+maxpooling2d_1 (MaxPooling2D)    (None, 1, 6, 64)      0           dropout_4[0][0]
+____________________________________________________________________________________________________
+leaky relu 5 (LeakyReLU)         (None, 1, 6, 64)      0           maxpooling2d_1[0][0]
+____________________________________________________________________________________________________
+flatten_1 (Flatten)              (None, 384)           0           leaky relu 5[0][0]
+____________________________________________________________________________________________________
+dropout_5 (Dropout)              (None, 384)           0           flatten_1[0][0]
+____________________________________________________________________________________________________
+leaky relu 6 (LeakyReLU)         (None, 384)           0           dropout_5[0][0]
+____________________________________________________________________________________________________
+hidden1 (Dense)                  (None, 512)           197120      leaky relu 6[0][0]
+____________________________________________________________________________________________________
+leaky relu 7 (LeakyReLU)         (None, 512)           0           hidden1[0][0]
+____________________________________________________________________________________________________
+hidden2 (Dense)                  (None, 256)           131328      leaky relu 7[0][0]
+____________________________________________________________________________________________________
+leaky relu 8 (LeakyReLU)         (None, 256)           0           hidden2[0][0]
+____________________________________________________________________________________________________
+hidden3 (Dense)                  (None, 50)            12850       leaky relu 8[0][0]
+____________________________________________________________________________________________________
+leaky relu 9 (LeakyReLU)         (None, 50)            0           hidden3[0][0]
+____________________________________________________________________________________________________
+output (Dense)                   (None, 1)             51          leaky relu 9[0][0]
+====================================================================================================
+Total params: 472697
+____________________________________________________________________________________________________
+None
+Saved model to disk
+
+4. 12 cycles - did not work either
+

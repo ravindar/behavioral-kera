@@ -1,0 +1,757 @@
+try this:
+https://github.com/bdholt1/CarND-Behavioural-Cloning/blob/master/model.py
+                 
+the advice to train on larger angles first then gradually accept more other angles seems to really have paid off so far Vivek! 
+
+Use successive refinement of a 'good' model. This really saves time and ensures that you converge on a solution faster. So when you get a model working a little bit, say passing the first corner, then use that model as a starting point for your next training session (kinda like Transfer Learning). Generate some new IMG data, lower the learning rate, and 'fine tune' this model.
+                                                                              
+
+
+----- runs ---         
+1. gets stuck on the bridge.
+carnd@ip-172-31-43-94:~/behavioral-kera$ python3 p3.py
+Using TensorFlow backend.
+Learning rate - 0.0001.
+Number of epochs - 7.
+Adjust left and right angle by a factor of - 0.75
+Found 8036 line.
+Number of features read from file -  24108
+Num of randomly removed 0.0 angle -  6865
+Total number of features after -  17243
+Number of features after randomly flipping non zero angles - 25929
+X_train has 17969 elements. removed 1477
+X_valid has 3042 elements. removed 223
+X_test has 3019 elements. remove 199
+Using generator
+starting model
+Epoch 1/7
+18000/18000 [==============================] - 54s - loss: 0.0224 - val_loss: 0.0176
+Epoch 2/7
+18000/18000 [==============================] - 53s - loss: 0.0164 - val_loss: 0.0179
+Epoch 3/7
+18000/18000 [==============================] - 54s - loss: 0.0156 - val_loss: 0.0158
+Epoch 4/7
+18000/18000 [==============================] - 54s - loss: 0.0154 - val_loss: 0.0168
+Epoch 5/7
+18000/18000 [==============================] - 53s - loss: 0.0149 - val_loss: 0.0156
+Epoch 6/7
+18000/18000 [==============================] - 53s - loss: 0.0146 - val_loss: 0.0170
+Epoch 7/7
+18000/18000 [==============================] - 53s - loss: 0.0145 - val_loss: 0.0163
+Test score 0.016528268044273698
+Saved model to disk       
+
+2. flipped all images with non zero angles. changed angle adjust to .77
+carnd@ip-172-31-43-94:~/behavioral-kera$ python3 p3.py
+Using TensorFlow backend.
+Learning rate - 0.0001.
+Number of epochs - 7.
+Adjust left and right angle by a factor of - 0.77
+Found 8036 line.
+Number of features read from file -  24108
+Num of randomly removed 0.0 angle -  6904
+Total number of features after -  17204
+Number of features after randomly flipping non zero angles - 34408
+X_train has 23972 elements. removed 1834
+X_valid has 4003 elements. removed 262
+X_test has 4039 elements. remove 298
+Using generator
+starting model
+Epoch 1/7
+24000/24000 [==============================] - 74s - loss: 0.0210 - val_loss: 0.0182
+Epoch 2/7
+24000/24000 [==============================] - 72s - loss: 0.0159 - val_loss: 0.0187
+Epoch 3/7
+24000/24000 [==============================] - 72s - loss: 0.0151 - val_loss: 0.0171
+Epoch 4/7
+24000/24000 [==============================] - 71s - loss: 0.0146 - val_loss: 0.0173
+Epoch 5/7
+24000/24000 [==============================] - 71s - loss: 0.0145 - val_loss: 0.0166
+Epoch 6/7
+24000/24000 [==============================] - 72s - loss: 0.0141 - val_loss: 0.0160
+Epoch 7/7
+24000/24000 [==============================] - 71s - loss: 0.0139 - val_loss: 0.0186
+Test score 0.016278694542806324
+Saved model to disk
+
+3. reduced angle adjust to .75 -- goes off the road after the bridge. gets past the bridge
+carnd@ip-172-31-43-94:~/behavioral-kera$ python3 p3.py
+Using TensorFlow backend.
+Learning rate - 0.0001.
+Number of epochs - 7.
+Adjust left and right angle by a factor of - 0.75
+Found 8036 line.
+Number of features read from file -  24108
+Num of randomly removed 0.0 angle -  6808
+Total number of features after -  17300
+Number of features after randomly flipping non zero angles - 34600
+X_train has 24171 elements. removed 1779
+X_valid has 4006 elements. removed 310
+X_test has 4015 elements. remove 319
+Using generator
+starting model
+Epoch 1/7
+24200/24200 [==============================] - 75s - loss: 0.0218 - val_loss: 0.0173
+Epoch 2/7
+24200/24200 [==============================] - 73s - loss: 0.0160 - val_loss: 0.0164
+Epoch 3/7
+24200/24200 [==============================] - 75s - loss: 0.0151 - val_loss: 0.0168
+Epoch 4/7
+24200/24200 [==============================] - 73s - loss: 0.0147 - val_loss: 0.0156
+Epoch 5/7
+24200/24200 [==============================] - 72s - loss: 0.0144 - val_loss: 0.0144
+Epoch 6/7
+24200/24200 [==============================] - 72s - loss: 0.0143 - val_loss: 0.0156
+Epoch 7/7
+24200/24200 [==============================] - 72s - loss: 0.0140 - val_loss: 0.0149
+Test score 0.014560528179040043
+Saved model to disk
+
+3. Changing to ELU  -- goes off the road after the bridge. gets past the bridge
+carnd@ip-172-31-43-94:~/behavioral-kera$ python3 p3.py
+Using TensorFlow backend.
+Learning rate - 0.0001.
+Number of epochs - 7.
+Adjust left and right angle by a factor of - 0.75
+Found 8036 line.
+Number of features read from file -  24108
+Num of randomly removed 0.0 angle -  6801
+Total number of features after -  17307
+Number of features after randomly flipping non zero angles - 34614
+X_train has 24073 elements. removed 1887
+X_valid has 4007 elements. removed 298
+X_test has 4030 elements. remove 319
+Using generator
+starting model
+Epoch 1/7
+24100/24100 [==============================] - 73s - loss: 0.0197 - val_loss: 0.0158
+Epoch 2/7
+24100/24100 [==============================] - 73s - loss: 0.0159 - val_loss: 0.0167
+Epoch 3/7
+24100/24100 [==============================] - 73s - loss: 0.0151 - val_loss: 0.0206
+Epoch 4/7
+24100/24100 [==============================] - 73s - loss: 0.0149 - val_loss: 0.0177
+Epoch 5/7
+24100/24100 [==============================] - 73s - loss: 0.0146 - val_loss: 0.0172
+Epoch 6/7
+24100/24100 [==============================] - 74s - loss: 0.0145 - val_loss: 0.0216
+Epoch 7/7
+24100/24100 [==============================] - 72s - loss: 0.0145 - val_loss: 0.0159
+Test score 0.016321876313446497
+Saved model to disk
+
+4. instead of flipping all non-zero angled images, randomly flip all images and remove small angle data < .03. added connect all to fully connected layer -- went off right away
+carnd@ip-172-31-43-94:~/behavioral-kera$ python3 p3.py
+Using TensorFlow backend.
+Learning rate - 0.0001.
+Number of epochs - 7.
+Adjust left and right angle by a factor of - 0.75
+Found 8036 line.
+Number of features read from file -  24108
+Num of randomly removed 0.0 angle -  15956
+Total number of features after -  8152
+Number of features after randomly flipping non zero angles - 12258
+X_train has 9193 elements. removed 0
+X_valid has 1532 elements. removed 0
+X_test has 1533 elements. remove 0
+Using generator
+starting model
+Epoch 1/7
+9200/9200 [==============================] - 31s - loss: 0.0402 - val_loss: 0.0331
+Epoch 2/7
+9200/9200 [==============================] - 29s - loss: 0.0298 - val_loss: 0.0317
+Epoch 3/7
+9200/9200 [==============================] - 28s - loss: 0.0272 - val_loss: 0.0280
+Epoch 4/7
+9200/9200 [==============================] - 29s - loss: 0.0260 - val_loss: 0.0241
+Epoch 5/7
+9200/9200 [==============================] - 29s - loss: 0.0249 - val_loss: 0.0229
+Epoch 6/7
+9200/9200 [==============================] - 29s - loss: 0.0244 - val_loss: 0.0218
+Epoch 7/7
+9200/9200 [==============================] - 29s - loss: 0.0234 - val_loss: 0.0195
+Test score 0.022771298536099494
+Saved model to disk
+
+5.  remove small angle data < .02, - took car off track right after take off
+carnd@ip-172-31-43-94:~/behavioral-kera$ python3 p3.py
+Using TensorFlow backend.
+Learning rate - 0.0001.
+Number of epochs - 7.
+Adjust left and right angle by a factor of - 0.75
+Found 8036 line.
+Number of features read from file -  24108
+Num of randomly removed 0.0 angle -  6925
+Num of low angled images (<0.02) removed -  8361
+Total number of features after -  8822
+Number of features after randomly flipping non zero angles - 13300
+X_train has 9975 elements. removed 0
+X_valid has 1662 elements. removed 0
+X_test has 1663 elements. remove 0
+Using generator
+starting model
+Epoch 1/7
+10000/10000 [==============================] - 32s - loss: 0.0382 - val_loss: 0.0315
+Epoch 2/7
+10000/10000 [==============================] - 31s - loss: 0.0283 - val_loss: 0.0265
+Epoch 3/7
+10000/10000 [==============================] - 30s - loss: 0.0258 - val_loss: 0.0252
+Epoch 4/7
+10000/10000 [==============================] - 31s - loss: 0.0248 - val_loss: 0.0248
+Epoch 5/7
+10000/10000 [==============================] - 31s - loss: 0.0241 - val_loss: 0.0219
+Epoch 6/7
+10000/10000 [==============================] - 31s - loss: 0.0233 - val_loss: 0.0217
+Epoch 7/7
+10000/10000 [==============================] - 32s - loss: 0.0227 - val_loss: 0.0206
+Test score 0.02127359330873279
+Saved model to disk
+
+5. remove small angle data < .01, - took car off track right after take off
+carnd@ip-172-31-43-94:~/behavioral-kera$ python3 p3.py
+Using TensorFlow backend.
+Learning rate - 0.0001.
+Number of epochs - 7.
+Adjust left and right angle by a factor of - 0.75
+Found 8036 line.
+Number of features read from file -  24108
+Num of randomly removed 0.0 angle -  6790
+Num of low angled images (<0.01) removed -  7541
+Total number of features after -  9777
+Number of features after randomly flipping non zero angles - 14715
+X_train has 11036 elements. removed 0
+X_valid has 1839 elements. removed 0
+X_test has 1840 elements. remove 0
+Using generator
+starting model
+Epoch 1/7
+11100/11100 [==============================] - 35s - loss: 0.0346 - val_loss: 0.0293
+Epoch 2/7
+11100/11100 [==============================] - 34s - loss: 0.0262 - val_loss: 0.0249
+Epoch 3/7
+11100/11100 [==============================] - 34s - loss: 0.0240 - val_loss: 0.0241
+Epoch 4/7
+11100/11100 [==============================] - 34s - loss: 0.0224 - val_loss: 0.0213
+Epoch 5/7
+11100/11100 [==============================] - 35s - loss: 0.0217 - val_loss: 0.0223
+Epoch 6/7
+11100/11100 [==============================] - 34s - loss: 0.0211 - val_loss: 0.0222
+Epoch 7/7
+11100/11100 [==============================] - 34s - loss: 0.0205 - val_loss: 0.0170
+Test score 0.0234846734000664
+Saved model to disk
+                                          
+6. remove small angle data < .001 (this if loop was screwed up as it removed all 0 images so this run had the added fix), flip all non-zero angled images. - took car off track after a bit longer on the track, did not get to the bridge
+carnd@ip-172-31-43-94:~/behavioral-kera$ python3 p3.py
+Using TensorFlow backend.
+Learning rate - 0.0001.
+Number of epochs - 7.
+Adjust left and right angle by a factor of - 0.75
+Found 8036 line.
+Number of features read from file -  24108
+Num of randomly removed 0.0 angle -  6972
+Num of low angled images (<0.001) removed -  77
+Total number of features after -  17059
+Number of features after adding randomly flipped all images - 25647
+Number of features after adding flipped non zero angled images - 51294
+X_train has 35697 elements. removed 2773
+X_valid has 5947 elements. removed 473
+X_test has 5940 elements. remove 464
+Using generator
+starting model
+Epoch 1/7
+35700/35700 [==============================] - 111s - loss: 0.0206 - val_loss: 0.0212
+Epoch 2/7
+35700/35700 [==============================] - 110s - loss: 0.0172 - val_loss: 0.0165
+Epoch 3/7
+35700/35700 [==============================] - 110s - loss: 0.0161 - val_loss: 0.0168
+Epoch 4/7
+35700/35700 [==============================] - 112s - loss: 0.0156 - val_loss: 0.0161
+Epoch 5/7
+35700/35700 [==============================] - 110s - loss: 0.0152 - val_loss: 0.0145
+Epoch 6/7
+35700/35700 [==============================] - 109s - loss: 0.0150 - val_loss: 0.0160
+Epoch 7/7
+35700/35700 [==============================] - 109s - loss: 0.0146 - val_loss: 0.0150
+Test score 0.014598585378068189
+Saved model to disk                                                                                  
+
+7. add flipped all non-zero angled images (they were getting added twice, fixed the coding issue) -- again went off the track quickly   
+carnd@ip-172-31-43-94:~/behavioral-kera$ python3 p3.py
+Using TensorFlow backend.
+Learning rate - 0.0001.
+Number of epochs - 7.
+Adjust left and right angle by a factor of - 0.75
+Found 8036 line.
+Number of features read from file -  24108
+Num of randomly removed 0.0 angle -  6879
+Num of low angled images (<0.001) removed -  77
+Total number of features after -  17152
+Number of features after adding randomly flipped all images - 25785
+Number of features after adding flipped non zero angled images - 25785
+X_train has 17917 elements. removed 1421
+X_valid has 2975 elements. removed 219
+X_test has 3005 elements. remove 248
+Using generator
+starting model
+Epoch 1/7
+18000/18000 [==============================] - 56s - loss: 0.0223 - val_loss: 0.0218
+Epoch 2/7
+18000/18000 [==============================] - 56s - loss: 0.0185 - val_loss: 0.0225
+Epoch 3/7
+18000/18000 [==============================] - 55s - loss: 0.0175 - val_loss: 0.0177
+Epoch 4/7
+18000/18000 [==============================] - 55s - loss: 0.0167 - val_loss: 0.0166
+Epoch 5/7
+18000/18000 [==============================] - 55s - loss: 0.0162 - val_loss: 0.0164
+Epoch 6/7
+18000/18000 [==============================] - 57s - loss: 0.0160 - val_loss: 0.0162
+Epoch 7/7
+18000/18000 [==============================] - 55s - loss: 0.0160 - val_loss: 0.0160
+Test score 0.015690317828088038
+Saved model to disk                           
+
+8. went back to step 4. reverted 
+						instead of flipping all non-zero angled images, 
+						randomly flip all images and 
+						remove small angle data < .03. 
+    added connect all to fully connected layer 
+
+	carnd@ip-172-31-43-94:~/behavioral-kera$ python3 p3.py
+	Using TensorFlow backend.
+	Learning rate - 0.0001.
+	Number of epochs - 7.
+	Adjust left and right angle by a factor of - 0.75
+	Found 8036 line.
+	Number of features read from file -  24108
+	Num of randomly removed 0.0 angle -  6870
+	Total number of features after -  17238
+	Number of features after adding flipped non zero angled images - 34476
+	X_train has 24077 elements. removed 1780
+	X_valid has 4011 elements. removed 316
+	X_test has 3994 elements. remove 298
+	Using generator
+	starting model
+	Epoch 1/7
+	24100/24100 [==============================] - 76s - loss: 0.0217 - val_loss: 0.0196
+	Epoch 2/7
+	24100/24100 [==============================] - 76s - loss: 0.0180 - val_loss: 0.0162
+	Epoch 3/7
+	24100/24100 [==============================] - 75s - loss: 0.0169 - val_loss: 0.0156
+	Epoch 4/7
+	24100/24100 [==============================] - 75s - loss: 0.0163 - val_loss: 0.0146
+	Epoch 5/7
+	24100/24100 [==============================] - 76s - loss: 0.0160 - val_loss: 0.0143
+	Epoch 6/7
+	24100/24100 [==============================] - 75s - loss: 0.0157 - val_loss: 0.0152
+	Epoch 7/7
+	24100/24100 [==============================] - 75s - loss: 0.0155 - val_loss: 0.0131
+	Test score 0.014072345732711256
+	Saved model to disk
+                                 
+9. reverted all the way back to step 3  - getting pass the bridge and dirt patch
+carnd@ip-172-31-43-94:~/behavioral-kera$ python3 p3.py
+Using TensorFlow backend.
+Learning rate - 0.0001.
+Number of epochs - 7.
+Adjust left and right angle by a factor of - 0.75
+Found 8036 line.
+Number of features read from file -  24108
+Num of randomly removed 0.0 angle -  6984
+Total number of features after -  17124
+Number of features after adding flipped non zero angled images - 34248
+X_train has 23898 elements. removed 1788
+X_valid has 3984 elements. removed 309
+X_test has 3972 elements. remove 297
+Using generator
+starting model
+Epoch 1/7
+23900/23900 [==============================] - 73s - loss: 0.0214 - val_loss: 0.0167
+Epoch 2/7
+23900/23900 [==============================] - 70s - loss: 0.0159 - val_loss: 0.0165
+Epoch 3/7
+23900/23900 [==============================] - 70s - loss: 0.0150 - val_loss: 0.0176
+Epoch 4/7
+23900/23900 [==============================] - 70s - loss: 0.0146 - val_loss: 0.0164
+Epoch 5/7
+23900/23900 [==============================] - 70s - loss: 0.0143 - val_loss: 0.0143
+Epoch 6/7
+23900/23900 [==============================] - 70s - loss: 0.0141 - val_loss: 0.0160
+Epoch 7/7
+23900/23900 [==============================] - 70s - loss: 0.0139 - val_loss: 0.0147
+Test score 0.015830663219094276
+Saved model to disk
+
+10. refinement model built on existing base model from step 9. - goes off after a while and crossing the bridge. (refine_1)
+logEntries, num = removeExtremeEntries(logEntries)
+logEntries, numOfZeroAngle = randomlyRemoveZeroAngledImages(logEntries)
+print("Num of randomly removed 0.0 angle -  {}".format(numOfZeroAngle))
+
+num_features = len(logEntries)
+print("Total number of features after -  {}".format(num_features))
+
+logEntries = flipAllImages50Prob(logEntries)
+
+
+11. refinement model built on existing base model from step 9. - gets stuck on bridge. (refine_2)
+based on additional removal of low angled images
+
+added - removal of small angles 
+logEntries, num = removeExtremeEntries(logEntries)
+logEntries, numOfZeroAngle = randomlyRemoveZeroAngledImages(logEntries)
+print("Num of randomly removed 0.0 angle -  {}".format(numOfZeroAngle))
+
+num_features = len(logEntries)
+print("Total number of features after -  {}".format(num_features))
+
+logEntries = flipAllImages50Prob(logEntries)
+num_features = len(logEntries)
+print("Number of features after adding flipped non zero angled images - {}".format(num_features))
+
+----------------------------
+Starting a new cycle
+----------------------------
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  13893
+Num of zero angles removed -  0
+Num of low angles removed (<0.2) -  7619
+Total number of features after -  2596
+Number of features after adding flipped non zero angled images - 3918
+X_train has 2938 elements. removed 0
+X_valid has 489 elements. removed 0
+X_test has 491 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+3000/3000 [==============================] - 8s - loss: 0.0305 - val_loss: 0.0399
+Test score 0.04484960958361626
+____________________________________________________________________________________________________
+Layer (type)                     Output Shape          Param #     Connected to
+====================================================================================================
+lambda_1 (Lambda)                (None, 80, 160, 3)    0           lambda_input_1[0][0]
+____________________________________________________________________________________________________
+convolution2d_1 (Convolution2D)  (None, 38, 78, 24)    1824        lambda_1[0][0]
+____________________________________________________________________________________________________
+activation_1 (Activation)        (None, 38, 78, 24)    0           convolution2d_1[0][0]
+____________________________________________________________________________________________________
+convolution2d_2 (Convolution2D)  (None, 17, 37, 36)    21636       activation_1[0][0]
+____________________________________________________________________________________________________
+dropout_1 (Dropout)              (None, 17, 37, 36)    0           convolution2d_2[0][0]
+____________________________________________________________________________________________________
+activation_2 (Activation)        (None, 17, 37, 36)    0           dropout_1[0][0]
+____________________________________________________________________________________________________
+convolution2d_3 (Convolution2D)  (None, 7, 17, 48)     43248       activation_2[0][0]
+____________________________________________________________________________________________________
+dropout_2 (Dropout)              (None, 7, 17, 48)     0           convolution2d_3[0][0]
+____________________________________________________________________________________________________
+activation_3 (Activation)        (None, 7, 17, 48)     0           dropout_2[0][0]
+____________________________________________________________________________________________________
+convolution2d_4 (Convolution2D)  (None, 5, 15, 64)     27712       activation_3[0][0]
+____________________________________________________________________________________________________
+dropout_3 (Dropout)              (None, 5, 15, 64)     0           convolution2d_4[0][0]
+____________________________________________________________________________________________________
+activation_4 (Activation)        (None, 5, 15, 64)     0           dropout_3[0][0]
+____________________________________________________________________________________________________
+convolution2d_5 (Convolution2D)  (None, 3, 13, 64)     36928       activation_4[0][0]
+____________________________________________________________________________________________________
+dropout_4 (Dropout)              (None, 3, 13, 64)     0           convolution2d_5[0][0]
+____________________________________________________________________________________________________
+maxpooling2d_1 (MaxPooling2D)    (None, 1, 6, 64)      0           dropout_4[0][0]
+____________________________________________________________________________________________________
+activation_5 (Activation)        (None, 1, 6, 64)      0           maxpooling2d_1[0][0]
+____________________________________________________________________________________________________
+flatten_1 (Flatten)              (None, 384)           0           activation_5[0][0]
+____________________________________________________________________________________________________
+dropout_5 (Dropout)              (None, 384)           0           flatten_1[0][0]
+____________________________________________________________________________________________________
+activation_6 (Activation)        (None, 384)           0           dropout_5[0][0]
+____________________________________________________________________________________________________
+hidden1 (Dense)                  (None, 512)           197120      activation_6[0][0]
+____________________________________________________________________________________________________
+activation_7 (Activation)        (None, 512)           0           hidden1[0][0]
+____________________________________________________________________________________________________
+hidden2 (Dense)                  (None, 256)           131328      activation_7[0][0]
+____________________________________________________________________________________________________
+activation_8 (Activation)        (None, 256)           0           hidden2[0][0]
+____________________________________________________________________________________________________
+hidden3 (Dense)                  (None, 50)            12850       activation_8[0][0]
+____________________________________________________________________________________________________
+activation_9 (Activation)        (None, 50)            0           hidden3[0][0]
+____________________________________________________________________________________________________
+output (Dense)                   (None, 1)             51          activation_9[0][0]
+====================================================================================================
+Total params: 472697
+____________________________________________________________________________________________________
+None
+Saved model to disk
+
+12. refinement model built on refined model from step 10. - stuck on bridge    (refine_2)
+----------------------------
+Starting a new cycle
+----------------------------
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  13893
+Num of zero angles removed -  0
+Num of low angles removed (<0.2) -  7619
+Total number of features after -  2596
+Number of features after adding flipped non zero angled images - 3902
+X_train has 2926 elements. removed 0
+X_valid has 487 elements. removed 0
+X_test has 489 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+3000/3000 [==============================] - 8s - loss: 0.0280 - val_loss: 0.0419
+Test score 0.04331851005554199
+____________________________________________________________________________________________________
+Layer (type)                     Output Shape          Param #     Connected to
+====================================================================================================
+lambda_1 (Lambda)                (None, 80, 160, 3)    0           lambda_input_1[0][0]
+____________________________________________________________________________________________________
+convolution2d_1 (Convolution2D)  (None, 38, 78, 24)    1824        lambda_1[0][0]
+____________________________________________________________________________________________________
+activation_1 (Activation)        (None, 38, 78, 24)    0           convolution2d_1[0][0]
+____________________________________________________________________________________________________
+convolution2d_2 (Convolution2D)  (None, 17, 37, 36)    21636       activation_1[0][0]
+____________________________________________________________________________________________________
+dropout_1 (Dropout)              (None, 17, 37, 36)    0           convolution2d_2[0][0]
+____________________________________________________________________________________________________
+activation_2 (Activation)        (None, 17, 37, 36)    0           dropout_1[0][0]
+____________________________________________________________________________________________________
+convolution2d_3 (Convolution2D)  (None, 7, 17, 48)     43248       activation_2[0][0]
+____________________________________________________________________________________________________
+dropout_2 (Dropout)              (None, 7, 17, 48)     0           convolution2d_3[0][0]
+____________________________________________________________________________________________________
+activation_3 (Activation)        (None, 7, 17, 48)     0           dropout_2[0][0]
+____________________________________________________________________________________________________
+convolution2d_4 (Convolution2D)  (None, 5, 15, 64)     27712       activation_3[0][0]
+____________________________________________________________________________________________________
+dropout_3 (Dropout)              (None, 5, 15, 64)     0           convolution2d_4[0][0]
+____________________________________________________________________________________________________
+activation_4 (Activation)        (None, 5, 15, 64)     0           dropout_3[0][0]
+____________________________________________________________________________________________________
+convolution2d_5 (Convolution2D)  (None, 3, 13, 64)     36928       activation_4[0][0]
+____________________________________________________________________________________________________
+dropout_4 (Dropout)              (None, 3, 13, 64)     0           convolution2d_5[0][0]
+____________________________________________________________________________________________________
+maxpooling2d_1 (MaxPooling2D)    (None, 1, 6, 64)      0           dropout_4[0][0]
+____________________________________________________________________________________________________
+activation_5 (Activation)        (None, 1, 6, 64)      0           maxpooling2d_1[0][0]
+____________________________________________________________________________________________________
+flatten_1 (Flatten)              (None, 384)           0           activation_5[0][0]
+____________________________________________________________________________________________________
+dropout_5 (Dropout)              (None, 384)           0           flatten_1[0][0]
+____________________________________________________________________________________________________
+activation_6 (Activation)        (None, 384)           0           dropout_5[0][0]
+____________________________________________________________________________________________________
+hidden1 (Dense)                  (None, 512)           197120      activation_6[0][0]
+____________________________________________________________________________________________________
+activation_7 (Activation)        (None, 512)           0           hidden1[0][0]
+____________________________________________________________________________________________________
+hidden2 (Dense)                  (None, 256)           131328      activation_7[0][0]
+____________________________________________________________________________________________________
+activation_8 (Activation)        (None, 256)           0           hidden2[0][0]
+____________________________________________________________________________________________________
+hidden3 (Dense)                  (None, 50)            12850       activation_8[0][0]
+____________________________________________________________________________________________________
+activation_9 (Activation)        (None, 50)            0           hidden3[0][0]
+____________________________________________________________________________________________________
+output (Dense)                   (None, 1)             51          activation_9[0][0]
+====================================================================================================
+Total params: 472697
+____________________________________________________________________________________________________
+None
+Saved model to disk
+
+13. combining some of step 10 and 11. built on base_model (refine_3)
+	do everything from 10 but leave some of the 0.0 angled images.
+	reduce the low angled images that are getting removed to .001 
+
+	----------------------------
+	Starting a new cycle
+	----------------------------
+	Found 8036 line.
+	Number of features read from file -  24108
+	Num of extreme angles removed -  6897
+	Num of low angles removed (<0.001) -  6996
+	Total number of features after -  10215
+	Number of features after adding flipped non zero angled images - 15356
+	X_train has 11517 elements. removed 0
+	X_valid has 1919 elements. removed 0
+	X_test has 1920 elements. remove 0
+	Using generator
+	starting model
+	Epoch 1/1
+	11600/11600 [==============================] - 34s - loss: 0.0154 - val_loss: 0.0199
+	Test score 0.01768430492375046
+	____________________________________________________________________________________________________
+	Layer (type)                     Output Shape          Param #     Connected to
+	====================================================================================================
+	lambda_1 (Lambda)                (None, 80, 160, 3)    0           lambda_input_1[0][0]
+	____________________________________________________________________________________________________
+	convolution2d_1 (Convolution2D)  (None, 38, 78, 24)    1824        lambda_1[0][0]
+	____________________________________________________________________________________________________
+	activation_1 (Activation)        (None, 38, 78, 24)    0           convolution2d_1[0][0]
+	____________________________________________________________________________________________________
+	convolution2d_2 (Convolution2D)  (None, 17, 37, 36)    21636       activation_1[0][0]
+	____________________________________________________________________________________________________
+	dropout_1 (Dropout)              (None, 17, 37, 36)    0           convolution2d_2[0][0]
+	____________________________________________________________________________________________________
+	activation_2 (Activation)        (None, 17, 37, 36)    0           dropout_1[0][0]
+	____________________________________________________________________________________________________
+	convolution2d_3 (Convolution2D)  (None, 7, 17, 48)     43248       activation_2[0][0]
+	____________________________________________________________________________________________________
+	dropout_2 (Dropout)              (None, 7, 17, 48)     0           convolution2d_3[0][0]
+	____________________________________________________________________________________________________
+	activation_3 (Activation)        (None, 7, 17, 48)     0           dropout_2[0][0]
+	____________________________________________________________________________________________________
+	convolution2d_4 (Convolution2D)  (None, 5, 15, 64)     27712       activation_3[0][0]
+	____________________________________________________________________________________________________
+	dropout_3 (Dropout)              (None, 5, 15, 64)     0           convolution2d_4[0][0]
+	____________________________________________________________________________________________________
+	activation_4 (Activation)        (None, 5, 15, 64)     0           dropout_3[0][0]
+	____________________________________________________________________________________________________
+	convolution2d_5 (Convolution2D)  (None, 3, 13, 64)     36928       activation_4[0][0]
+	____________________________________________________________________________________________________
+	dropout_4 (Dropout)              (None, 3, 13, 64)     0           convolution2d_5[0][0]
+	____________________________________________________________________________________________________
+	maxpooling2d_1 (MaxPooling2D)    (None, 1, 6, 64)      0           dropout_4[0][0]
+	____________________________________________________________________________________________________
+	activation_5 (Activation)        (None, 1, 6, 64)      0           maxpooling2d_1[0][0]
+	____________________________________________________________________________________________________
+	flatten_1 (Flatten)              (None, 384)           0           activation_5[0][0]
+	____________________________________________________________________________________________________
+	dropout_5 (Dropout)              (None, 384)           0           flatten_1[0][0]
+	____________________________________________________________________________________________________
+	activation_6 (Activation)        (None, 384)           0           dropout_5[0][0]
+	____________________________________________________________________________________________________
+	hidden1 (Dense)                  (None, 512)           197120      activation_6[0][0]
+	____________________________________________________________________________________________________
+	activation_7 (Activation)        (None, 512)           0           hidden1[0][0]
+	____________________________________________________________________________________________________
+	hidden2 (Dense)                  (None, 256)           131328      activation_7[0][0]
+	____________________________________________________________________________________________________
+	activation_8 (Activation)        (None, 256)           0           hidden2[0][0]
+	____________________________________________________________________________________________________
+	hidden3 (Dense)                  (None, 50)            12850       activation_8[0][0]
+	____________________________________________________________________________________________________
+	activation_9 (Activation)        (None, 50)            0           hidden3[0][0]
+	____________________________________________________________________________________________________
+	output (Dense)                   (None, 1)             51          activation_9[0][0]
+	====================================================================================================
+	Total params: 472697
+	____________________________________________________________________________________________________
+	None
+	Saved model to disk
+                                                   
+13. combining some of step 10 and 11. built on base_model   (refine_4)
+do everything from 10 but leave some of the 0.0 angled images.
+reduce the low angled images that are getting removed to .0001 
+added a model where successive runs are saved and loaded back in.
+also addExtraImagesOfLargeAnglesWithFlip angle > 0.40 and angle < 0.70:
+
+----------------------------
+Starting a new cycle
+----------------------------
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  6971
+Num of low angles removed (<0.0001) -  6883
+Total number of features after -  10254
+Number of features after adding flipped non zero angled images - 15288
+Number of features after adding extra images of large angles and flipped images - 16224
+X_train has 12168 elements. removed 0
+X_valid has 2028 elements. removed 0
+X_test has 2028 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+12200/12200 [==============================] - 36s - loss: 0.0185 - val_loss: 0.0198
+Saved model ./model_sub_6.json and ./model_sub_6.h5 to disk
+loading model model_sub_6.json
+----------------------------
+Starting a new cycle
+----------------------------
+Found 8036 line.
+Number of features read from file -  24108
+Num of extreme angles removed -  6940
+Num of low angles removed (<0.0001) -  6913
+Total number of features after -  10255
+Number of features after adding flipped non zero angled images - 15328
+Number of features after adding extra images of large angles and flipped images - 16281
+X_train has 12210 elements. removed 0
+X_valid has 2035 elements. removed 0
+X_test has 2036 elements. remove 0
+Using generator
+starting model
+Epoch 1/1
+12300/12300 [==============================] - 36s - loss: 0.0182 - val_loss: 0.0215
+Saved model ./model_sub_7.json and ./model_sub_7.h5 to disk
+loading model model_sub_7.json
+Test score 0.022218020278073493
+____________________________________________________________________________________________________
+Layer (type)                     Output Shape          Param #     Connected to
+====================================================================================================
+lambda_1 (Lambda)                (None, 80, 160, 3)    0           lambda_input_9[0][0]
+____________________________________________________________________________________________________
+convolution2d_1 (Convolution2D)  (None, 38, 78, 24)    1824        lambda_1[0][0]
+____________________________________________________________________________________________________
+activation_1 (Activation)        (None, 38, 78, 24)    0           convolution2d_1[0][0]
+____________________________________________________________________________________________________
+convolution2d_2 (Convolution2D)  (None, 17, 37, 36)    21636       activation_1[0][0]
+____________________________________________________________________________________________________
+dropout_1 (Dropout)              (None, 17, 37, 36)    0           convolution2d_2[0][0]
+____________________________________________________________________________________________________
+activation_2 (Activation)        (None, 17, 37, 36)    0           dropout_1[0][0]
+____________________________________________________________________________________________________
+convolution2d_3 (Convolution2D)  (None, 7, 17, 48)     43248       activation_2[0][0]
+____________________________________________________________________________________________________
+dropout_2 (Dropout)              (None, 7, 17, 48)     0           convolution2d_3[0][0]
+____________________________________________________________________________________________________
+activation_3 (Activation)        (None, 7, 17, 48)     0           dropout_2[0][0]
+____________________________________________________________________________________________________
+convolution2d_4 (Convolution2D)  (None, 5, 15, 64)     27712       activation_3[0][0]
+____________________________________________________________________________________________________
+dropout_3 (Dropout)              (None, 5, 15, 64)     0           convolution2d_4[0][0]
+____________________________________________________________________________________________________
+activation_4 (Activation)        (None, 5, 15, 64)     0           dropout_3[0][0]
+____________________________________________________________________________________________________
+convolution2d_5 (Convolution2D)  (None, 3, 13, 64)     36928       activation_4[0][0]
+____________________________________________________________________________________________________
+dropout_4 (Dropout)              (None, 3, 13, 64)     0           convolution2d_5[0][0]
+____________________________________________________________________________________________________
+maxpooling2d_1 (MaxPooling2D)    (None, 1, 6, 64)      0           dropout_4[0][0]
+____________________________________________________________________________________________________
+activation_5 (Activation)        (None, 1, 6, 64)      0           maxpooling2d_1[0][0]
+____________________________________________________________________________________________________
+flatten_1 (Flatten)              (None, 384)           0           activation_5[0][0]
+____________________________________________________________________________________________________
+dropout_5 (Dropout)              (None, 384)           0           flatten_1[0][0]
+____________________________________________________________________________________________________
+activation_6 (Activation)        (None, 384)           0           dropout_5[0][0]
+____________________________________________________________________________________________________
+hidden1 (Dense)                  (None, 512)           197120      activation_6[0][0]
+____________________________________________________________________________________________________
+activation_7 (Activation)        (None, 512)           0           hidden1[0][0]
+____________________________________________________________________________________________________
+hidden2 (Dense)                  (None, 256)           131328      activation_7[0][0]
+____________________________________________________________________________________________________
+activation_8 (Activation)        (None, 256)           0           hidden2[0][0]
+____________________________________________________________________________________________________
+hidden3 (Dense)                  (None, 50)            12850       activation_8[0][0]
+____________________________________________________________________________________________________
+activation_9 (Activation)        (None, 50)            0           hidden3[0][0]
+____________________________________________________________________________________________________
+output (Dense)                   (None, 1)             51          activation_9[0][0]
+====================================================================================================
+Total params: 472697
+____________________________________________________________________________________________________
+None
+Saved model ./model_refine_4.json and ./model_refine_4.h5 to disk      
+
+
+
+
+	

@@ -17,6 +17,7 @@ import argparse
 col, row, ch = 160, 80, 3
 w_reg=0.00
 
+# Read log files
 def readLogFiles(angleAdjust, location):
     with open(os.path.join(location, 'driving_log.csv'), 'r') as f:
         reader = csv.reader(f)
